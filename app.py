@@ -13,9 +13,14 @@ st.set_page_config(layout="wide")
 st.markdown(
     """
     <style>
+        /* Remove default header */
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        
         /* Target the main container padding */
         .block-container {
-            padding-top: 1rem !important;
+            padding-top: 0rem !important;
             padding-bottom: 0rem !important;
         }
         /* Target the top element margin specifically */
