@@ -6,6 +6,8 @@ import uuid
 import shutil
 import time
 
+from sycophancy_models import compute_stance_flip_probability
+
 # 1. Page Configuration for widescreen layout layout
 st.set_page_config(layout="wide")
 
@@ -102,8 +104,28 @@ with right_column:
     # If metrics exist in state, render the visual meters immediately
     if st.session_state.current_metrics:
         metrics = st.session_state.current_metrics
-        target_variables = ["assent", "we", "Clout", "moral", "adj", "negate", "risk", "Tone"]
         
+        #I want to add the overall probability to be displayed before the detailed metrics
+        # Calculate the stance flip probability using your imported file logic
+        probability_score = compute_stance_flip_probability(metrics)
+
+        # Render the high level diagnostic metrics inside the dashboard
+        st.markdown("### 🎯 System Stance Flip Probability")
+        prob_col1, prob_col2 = st.columns([1, 2])
+        
+        with prob_col1:
+            st.metric(
+                label="Current Risk Level", 
+                value=f"{probability_score * 100:.1f}%"
+            )
+        
+        with prob_col2:
+            st.write("")  # Vertical spacing alignment padding
+            st.progress(float(probability_score))
+            
+        st.write("---")
+
+        target_variables = ["assent", "we", "Clout", "moral", "adj", "negate", "risk", "Tone"]
         layout_pattern = [1.0, 0.2, 1.0, 0.2, 1.0, 0.2, 1.0]
         all_columns = st.columns(layout_pattern)
         data_columns = [all_columns[0], all_columns[2], all_columns[4], all_columns[6]]
@@ -234,7 +256,7 @@ if submit_clicked and user_input and user_input.strip() != "":
                     # Ensure column names match string keys precisely
                     df_full.columns = df_full.columns.str.strip()
                     
-                    # CRITICAL FIX: Explicitly assign metrics dictionary to state *before* rerun
+                    # Explicitly assign metrics dictionary to state *before* rerun
                     st.session_state.current_metrics = df_full.to_dict(orient="records")[0]
                     
             except Exception as e:
