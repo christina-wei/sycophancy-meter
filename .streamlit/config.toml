@@ -1,0 +1,9 @@
+[theme]
+# Your custom Teal accent
+primaryColor = "#40E0D0" 
+
+# Dark mode color variables
+backgroundColor = "#0E1117"
+secondaryBackgroundColor = "#262730"
+textColor = "#FAFAFA"
+font = "sans serif"

@@ -18,6 +18,11 @@ st.markdown(
         header {visibility: hidden;}
         footer {visibility: hidden;}
         
+        /* Overriding the default user avatar background color */
+        [data-testid="stChatMessageAvatarUser"] {
+            background-color: #40E0D0 !important;
+        }
+
         /* Target the main container padding */
         .block-container {
             padding-top: 0rem !important;
